@@ -23,6 +23,7 @@ const ItemSetCommand = new Command()
         }
         else sender.sendMessage(`§c${itemsetname} is not an valid item set. Please try again`)
         })
+    .setValidation({requiredGamerules: ["StorageUtilities", "creativeOnly"]})
     .build();
 
 extension.setCommand(ItemSetCommand);

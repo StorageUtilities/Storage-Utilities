@@ -14,6 +14,7 @@ const ItemSummonCommand = new Command()
         const location = {x: x+0.5, y: y, z:z+0.5}
         sender.dimension.spawnItem(new ItemStack(item, amount), location);
     })
+    .setValidation({requiredGamerules: ["StorageUtilities", "creativeOnly"]})
     .build()
 
 extension.setCommand(ItemSummonCommand)

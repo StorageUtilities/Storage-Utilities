@@ -141,6 +141,7 @@ const SSCommand = new Command()
         }
         else sender.sendMessage('§cSS/container is not valid. Please try again')
     })
+    .setValidation({requiredGamerules: ["StorageUtilities"]})
     .build();
 
 extension.setCommand(SSCommand);

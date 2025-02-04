@@ -9,6 +9,7 @@ const UtilityItemsCommand = new Command()
         mc.world.structureManager.place('mystructure:usefulitems', sender.dimension, {x: x ,y: y-1, z: z})
         sender.sendMessage('§aLoaded utility items')
     })
+    .setValidation({requiredGamerules: ["StorageUtilities", "creativeOnly"]})
     .build();
 
 extension.setCommand(UtilityItemsCommand)

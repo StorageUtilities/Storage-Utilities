@@ -13,6 +13,7 @@ const BetterSummonCommand = new Command()
          }
          sender.sendMessage(`§aSummoned ${amount.toString()} ${entity}s`)
     })
+    .setValidation({requiredGamerules: ["StorageUtilities", "creativeOnly"]})
     .build();
 
 extension.setCommand(BetterSummonCommand)

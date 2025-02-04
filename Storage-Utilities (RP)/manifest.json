@@ -1,0 +1,23 @@
+{
+    "format_version": 2,
+    "header": {
+      "name": "Storage utilties 1.1.0",
+      "description": "An Sapling exstension aimed an storage tech",
+      "uuid": "7f134c0f-305e-4011-9fb7-8d5e035365dd",
+      "version": [1, 1, 0],
+      "min_engine_version": [1,17,0]
+    },
+    "modules": [
+      {
+        "type": "resources",
+        "uuid": "f170651d-de6a-4232-a23c-d5f63e42946a",
+        "version": [1, 0, 0]
+      }
+    ],
+    "dependencies": [
+      {
+        "uuid": "f170651d-de6a-4232-a23c-d5f63e42946a", // Storage utilties [BP]
+        "version": [1, 1, 0]
+      }
+    ]
+  }

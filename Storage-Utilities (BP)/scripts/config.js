@@ -7,7 +7,7 @@ const extension = new SaplingExtension({
 });
 
 const Debug = new ConfigBuilder()
-.setDebugMode(true)
-.setAutomaticTranslations(false);
+.setDebugMode(false)
+.setAutomaticTranslations(true);
 
 export {extension, Debug}
