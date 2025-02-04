@@ -1,31 +1,20 @@
-import * as mc from '@minecraft/server'
-import { ItemStack, world } from '@minecraft/server'
-import {Command} from 'lib/canopy/CanopyExtension';
-import  extension from 'config'
-const ItemSummonCommand = new Command({
-    name: 'itemsummon',
-    description: 'A command to summon any items from nothing',
-    usage: 'itemsummon [item] [amount] [location]',
-    callback: ItemSummonCommandCallback,
-    args: [
-      { type: 'string|number', name: 'item' },
-      { type: 'number', name: 'amount' },
-      { type: 'number', name: 'x' },
-      { type: 'number', name: 'y' },
-      { type: 'number', name: 'z' },
-    ],
-    contingentRules: ['StorageUtilities','creativeOnly'],
-    adminOnly: false,
-    helpEntries: [
-    ],
-    helpHidden: false
-});
-extension.addCommand(ItemSummonCommand);
+import {Command} from 'lib/sapling';
+import  {extension} from 'config'
+import { ItemStack, world} from '@minecraft/server'
 
-function ItemSummonCommandCallback(sender, args){
-    let { item, amount, x, y, z } = args;
-    const location = {x: x+0.5, y: y, z:z+0.5}
-    sender.dimension.spawnItem(new ItemStack(item, amount), location);
-};
+const ItemSummonCommand = new Command()
+    .setName('itemsummon')
+    .setUsage('[item] [amount] [location]')
+    .addArgument('string', 'item')
+    .addArgument('number', 'amount')
+    .addArgument('number', 'x')
+    .addArgument('number', 'y')
+    .addArgument('number', 'z')
+    .setCallback((sender, {item, amount, x, y, z}) => {
+        const location = {x: x+0.5, y: y, z:z+0.5}
+        sender.dimension.spawnItem(new ItemStack(item, amount), location);
+    })
+    .setValidation({requiredGamerules: ["StorageUtilities", "creativeOnly"]})
+    .build()
 
-export { ItemSummonCommandCallback }
+extension.setCommand(ItemSummonCommand)

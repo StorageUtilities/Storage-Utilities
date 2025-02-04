@@ -1,9 +1,9 @@
 {
     "format_version": 2,
     "header": {
-        "description": "An Canopy exstension  amied an storage tech",
+        "description": "An Sapling exstension aimed an storage tech",
         "name": "Storage Utilities V1.1.0",
-        "uuid": "449dcd3f-e0a3-4217-9b0a-5b213f6b6cdd",
+        "uuid": "f170651d-de6a-4232-a23c-d5f63e42946a",
         "version": [1, 1, 0],
         "min_engine_version": [1,21,50]
     },
@@ -11,7 +11,7 @@
         {
             "description": "Behavior Pack Module",
             "type": "data",
-            "uuid": "ec4d34c5-4b79-4e22-aef1-898a039b2e81",
+            "uuid": "767748b5-0411-43fc-9669-8c334e5cbf6b",
             "version": [1, 0, 0]
         },
         {
@@ -19,7 +19,7 @@
             "type": "script",
             "language": "javascript",
             "entry": "scripts/main.js",
-            "uuid": "c775d99b-302a-44ad-8f57-9a7e660c270b",
+            "uuid": "df304f29-866f-4aa5-98f5-aef3a58ae195",
             "version": [1, 0, 0]
         }
     ],
@@ -29,12 +29,12 @@
             "version": "1.17.0-beta"
         },
         {
-			"uuid": "bcf34368-ed0c-4cf7-938e-582cccf9950d", // Canopy RP
-			"version": [1, 0, 1]
+			"uuid": "803a4d54-12b2-42a1-ad1c-65d33a3c8296", // Sapling BP
+			"version": [2, 1, 0]
 		},
 		{
-			"uuid": "7f6b23df-a583-476b-b0e4-87457e65f7c0", // Canopy BP
-			"version": [1, 3, 7]
+			"uuid": "a22382b7-a0bf-c46d-3627-4319d4b96d2b", // Sapling RP
+			"version": [2, 1, 0]
 		}
     ]
     }

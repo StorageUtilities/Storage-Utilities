@@ -1,8 +1,13 @@
-import { CanopyExtension } from 'lib/canopy/CanopyExtension';
-const extension = new CanopyExtension({
-    name: 'StorageUtilities',
-    description: 'Storage Utilities is an addon aimed to improve the process of making a system related to storage tech.',
-    version: '0.0.1',
+import {SaplingExtension, ConfigBuilder} from 'lib/sapling'
+
+const extension = new SaplingExtension({
+    extensionId: 'storage-utilities',
+    extensionName: 'Storage Utilities',
+    extensionNamespace: 'storageutilities'
 });
 
-export default extension;
+const Debug = new ConfigBuilder()
+.setDebugMode(false)
+.setAutomaticTranslations(true);
+
+export {extension, Debug}
