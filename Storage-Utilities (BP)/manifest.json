@@ -2,10 +2,10 @@
     "format_version": 2,
     "header": {
         "description": "An Sapling exstension aimed an storage tech",
-        "name": "Storage Utilities V1.1.0",
+        "name": "Storage Utilities V1.1.1",
         "uuid": "f170651d-de6a-4232-a23c-d5f63e42946a",
-        "version": [1, 1, 0],
-        "min_engine_version": [1,21,50]
+        "version": [1, 1, 1],
+        "min_engine_version": [1,21,60]
     },
     "modules": [
         {
@@ -26,15 +26,15 @@
     "dependencies": [
         {
             "module_name": "@minecraft/server",
-            "version": "1.17.0-beta"
+            "version": "1.18.0-beta"
         },
         {
 			"uuid": "803a4d54-12b2-42a1-ad1c-65d33a3c8296", // Sapling BP
-			"version": [2, 1, 0]
+			"version": [2, 1, 2]
 		},
 		{
 			"uuid": "a22382b7-a0bf-c46d-3627-4319d4b96d2b", // Sapling RP
-			"version": [2, 1, 0]
+			"version": [2, 1, 2]
 		}
     ]
     }
