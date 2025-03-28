@@ -3,7 +3,7 @@ import {Command} from 'lib/canopy/CanopyExtension';
 import  extension from 'config'
 const SSCommand = new Command({
     name: 'ss',
-    description: 'Tells you what items you need to make a specified SS for any given container.',
+    description: { text : 'Tells you what items you need to make a specified SS for any given container.'},
     usage: 'ss [container] [value]',
     callback: SSCommandCallback,
     args: [

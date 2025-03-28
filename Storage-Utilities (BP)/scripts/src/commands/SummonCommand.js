@@ -2,7 +2,7 @@ import {Command} from 'lib/canopy/CanopyExtension';
 import  extension from 'config'
 const BetterSummonCommand = new Command({
     name: 'summon',
-    description: 'Summons any amount (up to 1,000) of a specified entity',
+    description: { text : 'Summons any amount (up to 1,000) of a specified entity'},
     usage: 'summon [entity] [amount]',
     callback: BetterSummonCommandCallback,
     args: [
@@ -19,6 +19,7 @@ extension.addCommand(BetterSummonCommand);
 function BetterSummonCommandCallback(sender, args) {
 let {entity, amount} = args;
 amount = Math.max(0, Math.min(amount, 1000))
+amount = amount || 1
 for (let i = 0; i < amount; i++) {
     sender.dimension.spawnEntity(`minecraft:${entity}`, sender.location)
 }

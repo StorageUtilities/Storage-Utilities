@@ -3,7 +3,7 @@ import {Command} from 'lib/canopy/CanopyExtension';
 import  extension from 'config'
 const UtilityItemsCommand = new Command({
     name: 'utilityitems',
-    description: 'Load utility items barrel.',
+    description: { text : 'Load utility items barrel.'},
     usage: 'utilityitems',
     callback: UtilityItemsCommandCallback,
     args: [

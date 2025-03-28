@@ -4,7 +4,7 @@ import {Command} from 'lib/canopy/CanopyExtension';
 import  extension from 'config'
 const ItemSummonCommand = new Command({
     name: 'itemsummon',
-    description: 'A command to summon any items from nothing',
+    description: { text : 'A command to summon any items from nothing'},
     usage: 'itemsummon [item] [amount] [location]',
     callback: ItemSummonCommandCallback,
     args: [

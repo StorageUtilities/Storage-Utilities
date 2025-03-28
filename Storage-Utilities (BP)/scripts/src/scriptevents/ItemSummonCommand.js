@@ -1,6 +1,6 @@
 import { system } from '@minecraft/server';
 import extension from 'config';
-import ArgumentParser from 'lib/canopy/ArgumentParser';
+import { ArgumentParser } from 'lib/canopy/ArgumentParser';
 import { ItemSummonCommandCallback } from 'src/commands/ItemSummonCommand';
 
 system.afterEvents.scriptEventReceive.subscribe((event) => {

@@ -3,7 +3,7 @@ import {Command} from 'lib/canopy/CanopyExtension';
 import  extension from 'config'
 const ItemSetCommand = new Command({
     name: 'itemset',
-    description: 'Load structure file of a certain item set.',
+    description: { text : 'Load structure file of a certain item set.'},
     usage: 'itemset [name]',
     callback: ItemSetCommandCallback,
     args: [
@@ -12,11 +12,11 @@ const ItemSetCommand = new Command({
     contingentRules: ['StorageUtilities', 'creativeOnly'],
     adminOnly: false,
     helpEntries: [
-     { usage: `itemset casual`, description: `Loads casual item set` },
-     { usage: `itemset TMC`, description: `Loads TMC item set` },
-     { usage: `itemset split`, description: `Loads split item set` },
-     { usage: `itemset nonstackable`, description: `Loads nonstackable item set` },
-     { usage: `itemset bulk`, description: `Loads bulk item set` },
+     { usage: 'itemset casual', description: { text : 'Loads casual item set'} },
+     { usage: 'itemset TMC', description: { text : 'Loads TMC item set'} },
+     { usage: 'itemset split', description:  { text : 'Loads split item set'} },
+     { usage: 'itemset nonstackable', description:  { text : 'Loads nonstackable item set'} },
+     { usage: 'itemset bulk', description: { text : 'Loads bulk item set'} },
     ],
     helpHidden: false
 });
