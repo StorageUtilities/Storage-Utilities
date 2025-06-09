@@ -1,31 +1,23 @@
-import * as mc from '@minecraft/server'
-import { ItemStack, world } from '@minecraft/server'
-import {Command} from 'lib/canopy/CanopyExtension';
-import  extension from 'config'
-const ItemSummonCommand = new Command({
-    name: 'itemsummon',
-    description: { text : 'A command to summon any items from nothing'},
-    usage: 'itemsummon [item] [amount] [location]',
-    callback: ItemSummonCommandCallback,
-    args: [
-      { type: 'string|number', name: 'item' },
-      { type: 'number', name: 'amount' },
-      { type: 'number', name: 'x' },
-      { type: 'number', name: 'y' },
-      { type: 'number', name: 'z' },
-    ],
-    contingentRules: ['StorageUtilities','creativeOnly'],
-    adminOnly: false,
-    helpEntries: [
-    ],
-    helpHidden: false
-});
-extension.addCommand(ItemSummonCommand);
+import { ItemStack, system, CommandPermissionLevel, CustomCommandParamType } from '@minecraft/server'
 
-function ItemSummonCommandCallback(sender, args){
-    let { item, amount, x, y, z } = args;
-    const location = {x: x+0.5, y: y, z:z+0.5}
-    sender.dimension.spawnItem(new ItemStack(item, amount), location);
+system.beforeEvents.startup.subscribe((init) => {
+    const ItemSummonCommand =
+        {
+            name: "stu:itemsummon",
+            description: "Placeholder",
+            permissionLevel: CommandPermissionLevel.Any,
+            mandatoryParameters: [{ type: CustomCommandParamType.ItemType, name: "item" }, { type: CustomCommandParamType.Integer, name: "amount" }, { type: CustomCommandParamType.Location, name: "location" }],
+        };
+        init.customCommandRegistry.registerCommand(ItemSummonCommand, ItemSummonCommandCallback)
+})
+
+function ItemSummonCommandCallback(CustomCommandOrigin, item, amount, location){
+    switch (CustomCommandOrigin.sourceType) {
+      case "Block":
+        system.run(() => {CustomCommandOrigin.sourceBlock.dimension.spawnItem(new ItemStack(item, amount), location)})
+        break;
+      case "Entity":
+        system.run(() => {CustomCommandOrigin.sourceEntity.dimension.spawnItem(new ItemStack(item, amount), location)});
+        break;
+    }  
 };
-
-export { ItemSummonCommandCallback }
