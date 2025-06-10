@@ -13,11 +13,13 @@ system.beforeEvents.startup.subscribe((init) => {
 
 function ItemSummonCommandCallback(CustomCommandOrigin, item, amount, location){
     switch (CustomCommandOrigin.sourceType) {
-      case "Block":
-        system.run(() => {CustomCommandOrigin.sourceBlock.dimension.spawnItem(new ItemStack(item, amount), location)})
-        break;
-      case "Entity":
-        system.run(() => {CustomCommandOrigin.sourceEntity.dimension.spawnItem(new ItemStack(item, amount), location)});
-        break;
-    }  
+      case "Block": {
+        system.run(() => {CustomCommandOrigin.sourceBlock.dimension.spawnItem(new ItemStack(item, amount), location).clearVelocity()})
+        break
+      };
+      case "Entity": {
+        system.run(() => {CustomCommandOrigin.sourceEntity.dimension.spawnItem(new ItemStack(item, amount), location).clearVelocity()})
+        break
+      };
+    }
 };
