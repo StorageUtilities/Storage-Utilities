@@ -1,27 +1,32 @@
-import {Command} from 'lib/canopy/CanopyExtension';
-import  extension from 'config'
-const BetterSummonCommand = new Command({
-    name: 'summon',
-    description: { text : 'Summons any amount (up to 1,000) of a specified entity'},
-    usage: 'summon [entity] [amount]',
-    callback: BetterSummonCommandCallback,
-    args: [
-        { type: 'string', name: 'entity' },
-        { type: 'number', name: 'amount' }
-    ],
-    contingentRules: ['StorageUtilities', 'creativeOnly'], 
-    adminOnly: false, 
-    helpEntries: [],
-    helpHidden: false
-});
-extension.addCommand(BetterSummonCommand);
+import {system, CommandPermissionLevel, CustomCommandParamType} from '@minecraft/server'
 
-function BetterSummonCommandCallback(sender, args) {
-let {entity, amount} = args;
+system.beforeEvents.startup.subscribe((init) => {
+    const MultiSummonCommand =
+        {
+            name: "stu:multisummon",
+            description: "Placeholder",
+            permissionLevel: CommandPermissionLevel.Any,
+            mandatoryParameters: [{ type: CustomCommandParamType.EntityType, name: "entity" }, { type: CustomCommandParamType.Integer, name: "amount" }, {type: CustomCommandParamType.Location, name: "location"}],
+        };
+        init.customCommandRegistry.registerCommand(MultiSummonCommand, MultiSummonCommandCallback)
+})
+function MultiSummonCommandCallback(CustomCommandOrigin, entity, amount, location) {
 amount = Math.max(0, Math.min(amount, 1000))
 amount = amount || 1
-for (let i = 0; i < amount; i++) {
-    sender.dimension.spawnEntity(`minecraft:${entity}`, sender.location)
+
+switch (CustomCommandOrigin.sourceType) {
+    case "Block": {
+        for (let i = 0; i < amount; i++) {
+            system.run(() => {CustomCommandOrigin.sourceBlock.dimension.spawnEntity(entity, location)}) 
+        }
+        break
+    }
+    case "Entity": {
+        for (let i = 0; i < amount; i++) {
+            system.run(() => {CustomCommandOrigin.sourceEntity.dimension.spawnEntity(entity, location)}) 
+        }
+        CustomCommandOrigin.sourceEntity.sendMessage(`§aSummoned ${amount.toString()} ${JSON.stringify(entity)}`)
+        break
+    }
 }
-sender.sendMessage(`§aSummoned ${amount.toString()} ${entity}s`)
 }

@@ -11,7 +11,7 @@ system.beforeEvents.startup.subscribe((init) => {
         init.customCommandRegistry.registerCommand(ItemSetCommand, ItemSetCommandCallback)
 })
 
-function ItemSetCommandCallback(CustomCommandOrigin, itemsetname) {    
+function ItemSetCommandCallback(CustomCommandOrigin, itemsetname) {
 const ItemSetArray = ['casual', 'TMC', 'split', 'nonstackable', 'bulk']
 const IsValidItemSet = ItemSetArray.includes(itemsetname)
 const ItemSetStructures = {
@@ -21,20 +21,24 @@ const ItemSetStructures = {
     nonstackable:'mystructure:NSIS',
     bulk:'mystructure:Bulk_IS'
 }
-
 switch (true) {
-    case CustomCommandOrigin.sourceType === "Block" && IsValidItemSet === true:
-        system.run(() => {world.structureManager.place(ItemSetStructures[itemsetname], CustomCommandOrigin.sourceBlock.dimension, {x: CustomCommandOrigin.sourceBlock.x + 1, y: CustomCommandOrigin.sourceBlock.y, z: CustomCommandOrigin.sourceBlock.z + 1})})
+    case CustomCommandOrigin.sourceType === "Block" && IsValidItemSet: {
+        let {x, y, z} = CustomCommandOrigin.sourceBlock.location
+        system.run(() => {world.structureManager.place(ItemSetStructures[itemsetname], CustomCommandOrigin.sourceBlock.dimension, {x: x + 1 ,y: y, z: z + 1})})
+        break 
+    };
+    case CustomCommandOrigin.sourceType === "Block" && !IsValidItemSet: {
         break
-    case CustomCommandOrigin.sourceType === "Block" && IsValidItemSet === false:
-        break
-    case CustomCommandOrigin.sourceType === "Entity" && IsValidItemSet === true:
-        let {x, y ,z} = CustomCommandOrigin.sourceEntity.location
-        system.run(() => {world.structureManager.place(ItemSetStructures[itemsetname], CustomCommandOrigin.sourceEntity.dimension, {x: x+1 ,y: y, z: z+1})})
+    };
+    case CustomCommandOrigin.sourceType === "Entity" && IsValidItemSet: {
+        let { x, y, z } = CustomCommandOrigin.sourceEntity.location
+        system.run(() => {world.structureManager.place(ItemSetStructures[itemsetname], CustomCommandOrigin.sourceEntity.dimension, {x: x + 1 ,y: y, z: z + 1})})
         CustomCommandOrigin.sourceEntity.sendMessage(`§aLoaded item set ${itemsetname}`) 
         break
-    case CustomCommandOrigin.sourceType === "Entity" && IsValidItemSet === false:
+    };
+    case CustomCommandOrigin.sourceType === "Entity" && !IsValidItemSet: {
         CustomCommandOrigin.sourceEntity.sendMessage(`§c${itemsetname} is not an valid item set. Please try again`)
         break
+    };  
         }
         }
