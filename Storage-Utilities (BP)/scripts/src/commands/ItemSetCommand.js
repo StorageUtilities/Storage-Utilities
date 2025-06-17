@@ -1,30 +1,17 @@
-import * as mc from '@minecraft/server'
-import {Command} from 'lib/canopy/CanopyExtension';
-import  extension from 'config'
-const ItemSetCommand = new Command({
-    name: 'itemset',
-    description: 'Load structure file of a certain item set.',
-    usage: 'itemset [name]',
-    callback: ItemSetCommandCallback,
-    args: [
-        { type: 'string|number', name: 'itemsetname' }
-    ],
-    contingentRules: ['StorageUtilities', 'creativeOnly'],
-    adminOnly: false,
-    helpEntries: [
-     { usage: `itemset casual`, description: `Loads casual item set` },
-     { usage: `itemset TMC`, description: `Loads TMC item set` },
-     { usage: `itemset split`, description: `Loads split item set` },
-     { usage: `itemset nonstackable`, description: `Loads nonstackable item set` },
-     { usage: `itemset bulk`, description: `Loads bulk item set` },
-    ],
-    helpHidden: false
-});
-extension.addCommand(ItemSetCommand);
+import {system, CommandPermissionLevel, CustomCommandParamType, world} from '@minecraft/server'
+system.beforeEvents.startup.subscribe((init) => {
+    const ItemSetCommand =
+        {
+            name: "stu:itemset",
+            description: "Placeholder",
+            permissionLevel: CommandPermissionLevel.Any,
+            mandatoryParameters: [{ type: CustomCommandParamType.Enum, name: "stu:itemsetname" }],
+        };
+        init.customCommandRegistry.registerEnum("stu:itemsetname", ["casual", "TMC", "split", "nonstackable", "bulk"])
+        init.customCommandRegistry.registerCommand(ItemSetCommand, ItemSetCommandCallback)
+})
 
-function ItemSetCommandCallback(sender, args) {
-    let { itemsetname } = args;
-    let {x, y, z} = sender.location
+function ItemSetCommandCallback(CustomCommandOrigin, itemsetname) {
 const ItemSetArray = ['casual', 'TMC', 'split', 'nonstackable', 'bulk']
 const IsValidItemSet = ItemSetArray.includes(itemsetname)
 const ItemSetStructures = {
@@ -34,9 +21,24 @@ const ItemSetStructures = {
     nonstackable:'mystructure:NSIS',
     bulk:'mystructure:Bulk_IS'
 }
-                if (IsValidItemSet === true) {
-          mc.world.structureManager.place(ItemSetStructures[itemsetname], sender.dimension, {x: x+1 ,y: y, z: z+1} )
-          sender.sendMessage(`§aLoaded item set ${itemsetname}`) 
+switch (true) {
+    case CustomCommandOrigin.sourceType === "Block" && IsValidItemSet: {
+        let {x, y, z} = CustomCommandOrigin.sourceBlock.location
+        system.run(() => {world.structureManager.place(ItemSetStructures[itemsetname], CustomCommandOrigin.sourceBlock.dimension, {x: x + 1 ,y: y, z: z + 1})})
+        break 
+    };
+    case CustomCommandOrigin.sourceType === "Block" && !IsValidItemSet: {
+        break
+    };
+    case CustomCommandOrigin.sourceType === "Entity" && IsValidItemSet: {
+        let { x, y, z } = CustomCommandOrigin.sourceEntity.location
+        system.run(() => {world.structureManager.place(ItemSetStructures[itemsetname], CustomCommandOrigin.sourceEntity.dimension, {x: x + 1 ,y: y, z: z + 1})})
+        CustomCommandOrigin.sourceEntity.sendMessage(`§aLoaded item set ${itemsetname}`) 
+        break
+    };
+    case CustomCommandOrigin.sourceType === "Entity" && !IsValidItemSet: {
+        CustomCommandOrigin.sourceEntity.sendMessage(`§c${itemsetname} is not an valid item set. Please try again`)
+        break
+    };  
         }
-        else sender.sendMessage(`§c${itemsetname} is not an valid item set. Please try again`)
-    }
+        }

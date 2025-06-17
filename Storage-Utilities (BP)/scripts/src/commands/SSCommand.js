@@ -1,25 +1,17 @@
-// import * as mc from '@minecraft/server'
-import {Command} from 'lib/canopy/CanopyExtension';
-import  extension from 'config'
-const SSCommand = new Command({
-    name: 'ss',
-    description: 'Tells you what items you need to make a specified SS for any given container.',
-    usage: 'ss [container] [value]',
-    callback: SSCommandCallback,
-    args: [
-        { type: 'string|number', name: 'container' },
-        { type: 'number', name: 'value' }
-    ],
-    contingentRules: ['StorageUtilities'],
-    adminOnly: false,
-    helpEntries: [
-    ],
-    helpHidden: false
-});
-extension.addCommand(SSCommand);
+import {system, CommandPermissionLevel, CustomCommandParamType} from '@minecraft/server'
 
-function SSCommandCallback(sender, args) {
-    let { container, value} = args;
+system.beforeEvents.startup.subscribe((init) => {
+    const SSCommand =
+        {
+            name: "stu:ss",
+            description: "Tells you what items you need to make a specified SS for any given container.",
+            permissionLevel: CommandPermissionLevel.Any,
+            mandatoryParameters: [{ type: CustomCommandParamType.Enum, name: "stu:container" }, {type: CustomCommandParamType.Integer, name: "amount"}],
+        };
+        init.customCommandRegistry.registerEnum("stu:container", ["hopper", "lectern", "composter", "crafter", "barrel", "chest", "pot", "furnace"])
+        init.customCommandRegistry.registerCommand(SSCommand, SSCommandCallback)
+})
+function SSCommandCallback(CustomCommandOrigin, container, value) {
     const HopperSS = {
     1:'1 item',
     2:'23 items',
@@ -144,13 +136,18 @@ const MaxSS = {
     furnace:10,
 }
 
+if (CustomCommandOrigin.sourceType === "Block") {
+    return
+}
+
     if (container === 'composter' && value === 7) {
         sender.sendMessage('§cSS/container is not valid. Please try again')
         return
     } 
 
 if (ValidContainer === true && value <= MaxSS[container]) {
-    sender.sendMessage(`§aFor SS of ${value} in ${container} you need §l§2${SS[container][value]}`)
+    CustomCommandOrigin.sourceEntity.sendMessage(`§aFor SS of ${value} in ${container} you need §l§2${SS[container][value]}`)
+
 }
-else sender.sendMessage('§cSS/container is not valid. Please try again')
+else CustomCommandOrigin.sourceEntity.sendMessage('§cSS/container is not valid. Please try again')
 }

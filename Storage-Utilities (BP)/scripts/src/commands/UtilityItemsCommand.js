@@ -1,22 +1,27 @@
-import * as mc from '@minecraft/server'
-import {Command} from 'lib/canopy/CanopyExtension';
-import  extension from 'config'
-const UtilityItemsCommand = new Command({
-    name: 'utilityitems',
-    description: 'Load utility items barrel.',
-    usage: 'utilityitems',
-    callback: UtilityItemsCommandCallback,
-    args: [
-    ],
-    contingentRules: ['StorageUtilities', 'creativeOnly'],
-    adminOnly: false,
-    helpEntries: [],
-    helpHidden: false
-});
-extension.addCommand(UtilityItemsCommand);
+import {system, CommandPermissionLevel, world} from '@minecraft/server'
 
-function UtilityItemsCommandCallback(sender, args) {
-    let {x, y, z} = sender.location
-    mc.world.structureManager.place('mystructure:usefulitems', sender.dimension, {x: x ,y: y-1, z: z})
-    sender.sendMessage('§aLoaded utility items')
+system.beforeEvents.startup.subscribe((init) => {
+    const UtilityItemsCommand =
+        {
+            name: "stu:utilityitems",
+            description: "Placeholder",
+            permissionLevel: CommandPermissionLevel.Any
+        };
+        init.customCommandRegistry.registerCommand(UtilityItemsCommand, UtilityItemsCommandCallback)
+})
+
+function UtilityItemsCommandCallback(CustomCommandOrigin) {
+    switch (CustomCommandOrigin.sourceType) {
+        case "Block": {
+            let {x, y, z} = CustomCommandOrigin.sourceBlock.location
+            system.run(() => {world.structureManager.place('mystructure:usefulitems', CustomCommandOrigin.sourceBlock.dimension, {x: x ,y: y + 1, z: z})})
+            break
+        };
+        case "Entity": {
+            let {x, y, z} = CustomCommandOrigin.sourceEntity.location
+            system.run(() => {world.structureManager.place('mystructure:usefulitems', CustomCommandOrigin.sourceEntity.dimension, {x: x ,y: y - 1, z: z})}) 
+            CustomCommandOrigin.sourceEntity.sendMessage('§aLoaded utility items')
+        break
+        };
+    }
 }
