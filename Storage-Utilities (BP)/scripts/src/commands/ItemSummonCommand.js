@@ -4,7 +4,7 @@ system.beforeEvents.startup.subscribe((init) => {
     const ItemSummonCommand =
         {
             name: "stu:itemsummon",
-            description: "Placeholder",
+            description: "A command to summon any item from nothing",
             permissionLevel: CommandPermissionLevel.Any,
             mandatoryParameters: [{ type: CustomCommandParamType.ItemType, name: "item" }, { type: CustomCommandParamType.Integer, name: "amount" }, { type: CustomCommandParamType.Location, name: "location" }],
         };

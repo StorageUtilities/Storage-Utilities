@@ -4,7 +4,7 @@ system.beforeEvents.startup.subscribe((init) => {
     const MultiSummonCommand =
         {
             name: "stu:multisummon",
-            description: "Placeholder",
+            description: "Summons any amount (up to 1,000) of a specified entity",
             permissionLevel: CommandPermissionLevel.Any,
             mandatoryParameters: [{ type: CustomCommandParamType.EntityType, name: "entity" }, { type: CustomCommandParamType.Integer, name: "amount" }, {type: CustomCommandParamType.Location, name: "location"}],
         };

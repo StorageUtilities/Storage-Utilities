@@ -3,7 +3,7 @@ system.beforeEvents.startup.subscribe((init) => {
     const ItemSetCommand =
         {
             name: "stu:itemset",
-            description: "Placeholder",
+            description: "Load structure file of a certain item set.",
             permissionLevel: CommandPermissionLevel.Any,
             mandatoryParameters: [{ type: CustomCommandParamType.Enum, name: "stu:itemsetname" }],
         };
